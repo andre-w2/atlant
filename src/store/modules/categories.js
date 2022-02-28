@@ -2,7 +2,9 @@ import categoriesApi from '@/api/categories.js'
 
 const state = {
 	categories: null,
-	validationErrors: null
+	validationErrors: null,
+	isLoading: false,
+	fatalError: false
 }
 
 export const mutationsTypes = {
@@ -17,9 +19,11 @@ export const actionsTypes = {
 const mutations = {
 	[mutationsTypes.categoriesSuccess](state, payload) {
 		state.categories = payload
+		state.isLoading = true
 	},
 	[mutationsTypes.categoriesFailure](state, payload) {
 		state.validationErrors = payload
+		state.fatalError = true
 	},
 }
 

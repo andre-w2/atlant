@@ -2,7 +2,9 @@ import productApi from '@/api/product.js'
 
 const state = {
 	product: null,
+	isLoading: false,
 	validationErrors: null,
+	fatalError: false
 }
 
 export const mutationsTypes = {
@@ -17,9 +19,11 @@ export const actionsTypes = {
 const mutations = {
 	[mutationsTypes.productSuccess](state, payload) {
 		state.product = payload
+		state.isLoading = true
 	},
 	[mutationsTypes.productFailure](state, payload) {
 		state.validationErrors = payload
+		state.fatalError = true
 	},
 }
 

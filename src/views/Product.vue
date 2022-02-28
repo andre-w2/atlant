@@ -1,5 +1,5 @@
 <template>
-	<div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+	<div v-if="isLoading" class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
 		<template v-for="product in products" :key="product.id">
 			<router-link class="text-decoration-none text-dark" :to="{name: 'product_view', params: { id: product.id }}">
 				<div class="border border-dark mt-1 bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
@@ -14,14 +14,22 @@
 			</router-link>
 		</template>
 	</div>
+	<preload v-else-if="!fatalError" />
+	<fatal-error v-if="fatalError" />
 </template>
 
 <script>
 	import {mapState} from 'vuex'
 	import {actionsTypes} from '@/store/modules/product'
+	import Preload from '@/components/Preload'
+	import FatalError from '@/components/FatalError'
 
 	export default {
 		name: 'MvcProduct',
+		components: {
+			Preload,
+			FatalError
+		},
 		created() {
 			if (this.$route.query.id) {
 				this.$store.dispatch(actionsTypes.product, {id: this.$route.query.id})
@@ -32,6 +40,8 @@
 		computed: {
 			...mapState({
 				products: state => state.product.product,
+				isLoading: state => state.product.isLoading,
+				fatalError: state => state.product.fatalError
 			})
 		}
 	}

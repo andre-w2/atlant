@@ -1,8 +1,10 @@
 import productViewApi from '@/api/product_view.js'
 
 const state = {
+	isLoading: false,
 	product: null,
-	validationErrors: null
+	validationErrors: null,
+	fatalError: false
 }
 
 export const mutationsTypes = {
@@ -17,9 +19,11 @@ export const actionsTypes = {
 const mutations = {
 	[mutationsTypes.productViewSuccess](state, payload) {
 		state.product = payload
+		state.isLoading = true
 	},
 	[mutationsTypes.productViewFailure](state, payload) {
 		state.validationErrors = payload
+		state.fatalError = true
 	},
 }
 

@@ -1,5 +1,5 @@
 <template>
-	<div class="product_details">
+	<div v-if="isLoading" class="product_details">
 		<div class="container">
 			<template v-for="product_view in products_view" :key="product_view.id">
 				<div class="row details_row">
@@ -33,14 +33,22 @@
 			</template>
 		</div>
 	</div>
+	<preload v-else-if="!fatalError" />
+	<fatal-error v-if="fatalError" />
 </template>
 
 <script>
 	import {mapState} from 'vuex'
 	import {actionsTypes} from '@/store/modules/product_view'
+	import Preload from '@/components/Preload'
+	import FatalError from '@/components/FatalError'
 
 	export default {
 		name: 'MvcProduct',
+		components: {
+			Preload,
+			FatalError
+		},
 		created() {
 			this.$store.dispatch(actionsTypes.product_view, {
 				id: this.$route.params.id
@@ -48,7 +56,9 @@
 		},
 		computed: {
 			...mapState({
-				products_view: state => state.product_view.product
+				products_view: state => state.product_view.product,
+				isLoading: state => state.product_view.isLoading,
+				fatalError: state => state.product_view.fatalError
 			}),
 		}
 	}

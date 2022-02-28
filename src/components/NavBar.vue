@@ -1,7 +1,7 @@
 <template>
 	<header class="p-3 mb-3 border-bottom">
 		<div class="container">
-			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+			<nav v-if="isLoading" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 				<div class="container-fluid">
 					<router-link :to="{name: 'home'}" 
 					class="navbar-brand text-decoration-none">
@@ -23,6 +23,7 @@
 				</div>
 			</div>
 		</nav>
+		<fatal-error v-if="fatalError" />
 	</div>
 </header>
 </template>
@@ -31,12 +32,18 @@
 	import {mapState} from 'vuex'
 	import {actionsTypes} from '@/store/modules/categories'
 	import {actionsTypes as typesProduct} from '@/store/modules/product'
+	import FatalError from '@/components/FatalError'
 
 	export default {
 		name: 'MvcTopBar',
+		components: {
+			FatalError
+		},
 		computed: {
 			...mapState({
 				categories: state => state.categories.categories,
+				isLoading: state => state.categories.isLoading,
+				fatalError: state => state.categories.fatalError,
 			})
 		},
 		created() {
