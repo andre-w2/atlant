@@ -7,13 +7,13 @@
 		</div>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img src="@/assets/slider/1.jpg" class="d-block w-100" alt="...">
+				<img src="@/assets/slider/01.png" class="d-block w-100" alt="...">
 			</div>
 			<div class="carousel-item">
-				<img src="@/assets/slider/2.jpg" class="d-block w-100" alt="...">
+				<img src="@/assets/slider/02.jpg" class="d-block w-100" alt="...">
 			</div>
 			<div class="carousel-item">
-				<img src="@/assets/slider/3.jpg" class="d-block w-100" alt="...">
+				<img src="@/assets/slider/03.jpg" class="d-block w-100" alt="...">
 			</div>
 		</div>
 		<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
