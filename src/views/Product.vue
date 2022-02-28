@@ -15,7 +15,7 @@
                 </router-link>
             </template>
         </template>
-        <div class="alert alert-warning">
+        <div v-else class="alert alert-warning">
         Данные не найдены
         </div>
     </div>
