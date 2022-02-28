@@ -1,7 +1,7 @@
 <template>
     <div v-if="isLoading" class="product_details">
-        <div class="container">
-            <template v-if="products_view">
+        <template v-if="products_view.length">
+            <div class="container">
                 <template v-for="product_view in products_view" :key="product_view.id">
                     <div class="row details_row">
                         <div class="col-lg-6">
@@ -29,11 +29,9 @@
                         </div>
                     </div>
                 </template>
-            </template>
-            <div v-else class="alert alert-warning">
-            	Данные не найдены
             </div>
-        </div>
+        </template>
+        <div v-else class="alert alert-warning">Данные не найдены</div>
     </div>
     <preload v-else-if="!fatalError" />
     <fatal-error v-if="fatalError" />
