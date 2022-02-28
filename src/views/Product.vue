@@ -1,6 +1,6 @@
 <template>
     <div v-if="isLoading" class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-        <template v-if="product">
+        <template v-if="products">
             <template v-for="product in products" :key="product.id">
                 <router-link class="text-decoration-none text-dark" :to="{name: 'product_view', params: { id: product.id }}">
                     <div class="border border-dark mt-1 bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
