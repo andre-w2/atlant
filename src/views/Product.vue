@@ -1,108 +1,89 @@
 <template>
-    <div v-if="isLoading" class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+    <div v-if="isLoading" class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
         <template v-if="products">
-            <template v-for="product in products" :key="product.id">
-                <router-link class="text-decoration-none text-dark" :to="{name: 'product_view', params: { id: product.id }}">
-                    <div class="border border-dark mt-1 bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                        <div class="my-3 p-3">
-                            <h5 class="display-5">{{ product.name }}</h5>
-                            <p class="lead">${{ product.price }}</p>
+            <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+                <div v-for="product in products" :key="product.id" class="col">
+                    <div class="card h-100 shadow-sm"> 
+                      <router-link class="text-decoration-none" :to="{name: 'product_view', params: { id: product.id }}">
+                        <img :src="product.img" :alt="product.name" class="card-img-top" />
+                        <div class="card-body">
+                            <div class="clearfix mb-3">
+                                <span class="float-start badge rounded-pill bg-primary">
+                                    {{ product.name }}
+                                </span> 
+                                <span class="float-end text-dark price-hp">
+                                    ${{ product.price }}
+                                </span> 
+                            </div>
                         </div>
-                        <div class="mx-auto im">
-                            <img :src="product.img" :alt="product.name">
-                        </div>
-                    </div>
-                </router-link>
-            </template>
-        </template>
-        <div v-else class="alert alert-warning">
-        Данные не найдены
+                    </router-link>
+                </div>
+            </div>
         </div>
+    </template>
+    <div class="alert alert-warning">
+        Данные не найдены
     </div>
-    <preload v-else-if="!fatalError" />
-    <fatal-error v-if="fatalError" />
+</div>
+<preload v-else-if="!fatalError" />
+<fatal-error v-if="fatalError" />
 </template>
+
 <script>
-import { mapState } from 'vuex'
-import { actionsTypes } from '@/store/modules/product'
-import Preload from '@/components/Preload'
-import FatalError from '@/components/FatalError'
+    import { mapState } from 'vuex'
+    import { actionsTypes } from '@/store/modules/product'
+    import Preload from '@/components/Preload'
+    import FatalError from '@/components/FatalError'
 
-export default {
-    name: 'MvcProduct',
-    components: {
-        Preload,
-        FatalError
-    },
-    created() {
-        if (this.$route.query.id) {
-            this.$store.dispatch(actionsTypes.product, { id: this.$route.query.id })
-        } else {
-            this.$store.dispatch(actionsTypes.product, { id: 0 })
+    export default {
+        name: 'MvcProduct',
+        components: {
+            Preload,
+            FatalError
+        },
+        created() {
+            if (this.$route.query.id) {
+                this.$store.dispatch(actionsTypes.product, { id: this.$route.query.id })
+            } else {
+                this.$store.dispatch(actionsTypes.product, { id: 0 })
+            }
+        },
+        computed: {
+            ...mapState({
+                products: state => state.product.product,
+                isLoading: state => state.product.isLoading,
+                fatalError: state => state.product.fatalError
+            })
         }
-    },
-    computed: {
-        ...mapState({
-            products: state => state.product.product,
-            isLoading: state => state.product.isLoading,
-            fatalError: state => state.product.fatalError
-        })
     }
-}
 </script>
+
 <style>
-.im {
-    height: 300px;
-}
+    .card {
+        background: #fff;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+        transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+        border: 0;
+        border-radius: 1rem
+    }
 
-.products {
-    width: 100%;
-    background: #FFFFFF;
-    z-index: 2;
-}
+    .card-img-top {
+        border-top-left-radius: calc(1rem - 1px);
+        border-top-right-radius: calc(1rem - 1px);
+        width: 100%;
+        max-height: 180px;
+        object-fit: contain;
+        padding: 30px
+    }
 
-.product {
-    width: calc((100% - 90px) / 4);
-    margin-top: 20px;
-    margin-bottom: 59px;
-    padding-left: 63px;
-}
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06)
+    }
 
-.product_image {
-    width: 100%;
-}
-
-.product_image img {
-    max-width: 100%;
-}
-
-.product_content {
-    width: 100%;
-    padding-top: 36px;
-    padding-bottom: 38px;
-}
-
-.product_title a {
-    font-size: 18px;
-    font-weight: 500;
-    color: #1b1b1b;
-    line-height: 1.1;
-    -webkit-transition: all 200ms ease;
-    -moz-transition: all 200ms ease;
-    -ms-transition: all 200ms ease;
-    -o-transition: all 200ms ease;
-    transition: all 200ms ease;
-}
-
-.product_title a:hover {
-    color: #e95a5a;
-}
-
-.product_price {
-    font-size: 16px;
-    font-weight: 500;
-    color: #6c6a74;
-    line-height: 0.75;
-    margin-top: 13px;
-}
+    @media (max-width: 768px) {
+        .card-img-top {
+            max-height: 250px
+        }
+    }
 </style>
