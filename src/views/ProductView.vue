@@ -21,7 +21,7 @@
                                         {{ parseInt(product_view.availability) === 1 ? 'Есть в наличии' : 'Нету в наличии' }}
                                     </span>
                                 </div>
-                                <div v-if="products_view.desk.length" class="details_text">
+                                <div class="details_text">
                                     <h3 class="mt-3 mb-1">Характеристики</h3>
                                     <pre class="fw-bold" v-html="product_view.desk"></pre>
                                 </div>
